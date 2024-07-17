@@ -1,9 +1,12 @@
+import Banner from "../Banner Sec/Banner";
+import OrderSec from "../Order Sec/OrderSec";
 
 
 const Home = () => {
     return (
         <div>
-            <h3 className="text-center text-4xl">This is Home Section</h3>
+            <Banner/>
+            <OrderSec/>
         </div>
     );
 };
