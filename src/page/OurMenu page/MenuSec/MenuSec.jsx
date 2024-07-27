@@ -26,11 +26,11 @@ const MenuSec = () => {
             ></TitleSec>
             <MenuCategory items={offer}></MenuCategory>
             {/* populer */}
-            <MenuCategory items={popular} title='Popular Item List' img={img1}></MenuCategory>
+            <MenuCategory items={popular} title='popular' img={img1}></MenuCategory>
             {/* drinks */}
-            <MenuCategory items={dessert} title='Drinks Item List' img={img2}></MenuCategory>
+            <MenuCategory items={dessert} title='drinks' img={img2}></MenuCategory>
             {/* salad */}
-            <MenuCategory items={salad} title='Salad Item List' img={img3}></MenuCategory>
+            <MenuCategory items={salad} title='salad' img={img3}></MenuCategory>
             {/* salad */}
             <MenuCategory items={drinks} ></MenuCategory>
         </div>
