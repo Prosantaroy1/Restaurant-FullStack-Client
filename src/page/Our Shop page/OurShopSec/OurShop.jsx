@@ -13,6 +13,7 @@ const OurShop = () => {
     const [tabIndex, setTabIndex] = useState(0);
     // 
     const [menu]=useMenu();
+    // console.log(menu);
     const offer=menu.filter(item=> item.category === 'offered')
     const popular=menu.filter(item=> item.category === 'popular')
     const drinks=menu.filter(item=> item.category === 'drinks')

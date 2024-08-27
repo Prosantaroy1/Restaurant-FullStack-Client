@@ -1,34 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
-    const [disable, setDisable]= useState(true);
+    const [disable, setDisable] = useState(true);
+    // auth
+    const { signInUser } = useContext(AuthContext);
 
-//  captch
-    useEffect(()=>{
-        loadCaptchaEnginge(6); 
-    },[])
+    //  captch
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, [])
 
     //
-    const handleCaptch=e=>{
-        const user_captch= e.target.value;
+    const handleCaptch = e => {
+        const user_captch = e.target.value;
         if (validateCaptcha(user_captch)) {
             setDisable(false)
         }
-   
+
         else {
-           setDisable(true)
+            setDisable(true)
         }
     }
+    // navigate home
+    const location=useLocation();
+    const navigate = useNavigate();
+    const frome= location.state?.from?.pathname || '/';
+
     // login from
-    const handleLogin=(e)=>{
+    const handleLogin = (e) => {
         e.preventDefault();
-        const from= e.target;
-        const email=from.email.value;
-        const password=from.password.value;
-        const user={email, password};
-        console.log(user)
+        const from = e.target;
+        const email = from.email.value;
+        const password = from.password.value;
+        // const user={email, password};
+        //console.log(user)
+        signInUser(email, password)
+            .then(result => {
+                const loguser = result.user;
+                Swal.fire({
+                    title: "Succefully Login",
+                    text: "Welcome to our website !",
+                    icon: "question"
+                });
+                navigate(frome, {replace: true})
+
+            })
+            .then(error => {
+                console.log(error)
+            })
+
     }
 
     return (
@@ -61,15 +85,15 @@ const Login = () => {
                             </div>
                             <div className="form-control">
                                 <label className="label">
-                                   <LoadCanvasTemplate />
+                                    <LoadCanvasTemplate />
                                 </label>
                                 <input onBlur={handleCaptch} type="text" name='captch' placeholder="set captch" className="input input-bordered" required />
                             </div>
                             <div className="form-control mt-6">
-                               <input type="submit" className='btn btn-primary' disabled={disable} value="login" />
+                                <input type="submit" className='btn btn-primary' disabled={disable} value="login" />
                             </div>
                         </form>
-                        <p className='pl-4'>Create Account && <Link to='/signup'><span className='text-red-600 text-xl'>Signup</span></Link></p>
+                        <p className='pl-4'>Create Account && <Link to='/signup'><span className='text-red-600 '>Signup</span></Link></p>
                     </div>
                 </div>
             </div>

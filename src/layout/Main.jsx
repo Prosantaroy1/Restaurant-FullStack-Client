@@ -6,7 +6,7 @@ import Footer from "../page/Shared/Footer/Footer";
 const Main = () => {
     // 
     const location= useLocation();
-    console.log(location)
+    // console.log(location)
     const IsNavBarFooter=location.pathname.includes('login') || location.pathname.includes('signup');
 
     return (

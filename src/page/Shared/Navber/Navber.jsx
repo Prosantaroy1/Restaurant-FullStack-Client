@@ -1,21 +1,53 @@
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../provider/AuthProvider";
+import { useContext } from "react";
+import useCart from "../../../hook/useCart";
 
 
 const Navber = () => {
+    // auth
+    const { user, logOutUser } = useContext(AuthContext);
+    // cart
+    const [cart] = useCart();
 
-    const navItem=<>
-      <li>
-        <Link to='/'>Home</Link>
-      </li>
-      <li>
-        <Link to='/menu'>Our Menu</Link>
-      </li>
-      <li>
-        <Link to='/shop/salad'>Our Shop</Link>
-      </li>
-      <li>
-        <Link to='/login'>Login</Link>
-      </li>
+    //logout
+    const handlelogout = () => {
+        logOutUser()
+            .then(() => { })
+            .then(error => {
+                console.log(error)
+            })
+    }
+
+    const navItem = <>
+        <li>
+            <Link to='/'>Home</Link>
+        </li>
+        <li>
+            <Link to='/menu'>Our Menu</Link>
+        </li>
+        <li>
+            <Link to='/scriket'>Scriket</Link>
+        </li>
+        <li>
+            <Link to='/shop'>Our Shop</Link>
+        </li>
+        <li>
+            <Link to='/dashboard/cart'>
+                <div className="indicator">
+                    <span className="indicator-item badge badge-secondary">{cart.length}</span>
+                    <button className="btn">cart</button>
+                </div>
+            </Link>
+        </li>
+        <li>
+            {
+                user ? <div><button onClick={handlelogout} className="px-4 py-2 bg-green-600 text-white">LogOut</button></div>
+                    : <>
+                        <Link to='/login'>Login</Link>
+                    </>
+            }
+        </li>
     </>
 
     return (
@@ -39,14 +71,14 @@ const Navber = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                           {navItem}
+                            className="menu  items-center menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                            {navItem}
                         </ul>
                     </div>
                     <a className="btn btn-ghost text-xl">TP Restaurant</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
+                    <ul className="menu items-center menu-horizontal px-1">
                         {navItem}
                     </ul>
                 </div>
