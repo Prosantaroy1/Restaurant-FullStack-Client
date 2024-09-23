@@ -4,12 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../provider/AuthProvider';
 import { useContext } from 'react';
 import Swal from 'sweetalert2';
+import useAxiosPublic from '../../hook/useAxiosPublic';
+import Googlelogin from '../Shared/SocialLogin/Googlelogin';
 
 const SignUp = () => {
     //auth
-    const {createUser,updateUser} = useContext(AuthContext);
+    const { createUser, updateUser } = useContext(AuthContext);
     // 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
+    // axios public
+    const axiosPublic = useAxiosPublic();
 
     // react hook
     const {
@@ -19,34 +23,44 @@ const SignUp = () => {
         formState: { errors },
     } = useForm();
     // react hook fn
-    
-  const onSubmit= (data) => {
-    console.log(data)
-    createUser(data.email, data.password)
-    .then(result=>{
-        const logUser= result.user;
-        updateUser(data.name, data.photourl)
-        .then(()=>{
-            console.log('update User name photo');
-            reset();
-            Swal.fire({
-                title: "Succefully created",
-                text: "Welcome to our website !",
-                icon: "question"
-            });
-            navigate('/')
-        })
-        .then(error=>{
-            console.log('error');
-        })
-       
 
-    })
-    .then(errors=>{
-        console.log(errors)
-    })
+    const onSubmit = (data) => {
+        console.log(data)
+        createUser(data.email, data.password)
+            .then(result => {
+                const logUser = result.user;
+                updateUser(data.name, data.photourl)
+                    .then(() => {
+                        console.log('update User name photo');
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/user', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    reset();
+                                    Swal.fire({
+                                        title: "Succefully created",
+                                        text: "Welcome to our website !",
+                                        icon: "question"
+                                    });
+                                    navigate('/')
+                                }
+                            })
 
-  }
+                    })
+                    .then(error => {
+                        console.log('error');
+                    })
+
+
+            })
+            .then(errors => {
+                console.log(errors)
+            })
+
+    }
 
     return (
         <div>
@@ -90,7 +104,10 @@ const SignUp = () => {
                             </div>
                         </form>
                         <p className='pl-4'>Allready account && <Link to='/login'><span className='text-red-600'>Login</span></Link></p>
+                        <hr />
+                        <Googlelogin />
                     </div>
+
                 </div>
             </div>
         </div>
