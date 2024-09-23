@@ -11,6 +11,9 @@ import Scriket from "../page/Home/ScriketPage/Scriket";
 import Dashboard from "../layout/Dashboard";
 import Cart from "../page/Dashboard page/Cart sec/Cart";
 import UserHome from "../page/Dashboard page/UserHome/UserHome";
+import AllUser from "../page/Dashboard page/admin/All User/AllUser";
+import AdminHome from "../page/Dashboard page/admin/Admin Home/AdminHome";
+import PrivetAdmin from "./PrivetAdmin";
 
 
 const router = createBrowserRouter([
@@ -49,6 +52,7 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <Dashboard/>,
         children:[
+            // ------user router------
             {
                 path: 'cart',
                 element: <Cart/>
@@ -56,6 +60,15 @@ const router = createBrowserRouter([
             {
                 path:'userhome',
                 element: <UserHome/>
+            },
+            //------------ admin router --------
+            {
+                path: 'user',
+                element: <PrivetAdmin><AllUser/></PrivetAdmin>
+            },
+            {
+                path: 'adminhome',
+                element: <PrivetAdmin><AdminHome/></PrivetAdmin>
             }
         ]
     }

@@ -27,7 +27,7 @@ const Cart = () => {
                 }
             })
     }
-
+    
     return (
         <div>
             <div className="flex bg-slate-100 px-5 justify-between items-center">
